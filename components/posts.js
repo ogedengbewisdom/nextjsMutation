@@ -3,8 +3,17 @@ import { useOptimistic } from "react";
 import { formatDate } from "@/lib/format";
 import LikeButton from "./like-icon";
 import { togglePostStatus } from "@/lib/post-mutation";
+import Image from "next/image";
 
 // import { updatePostLikeStatus } from "@/lib/posts";
+
+const testLoader = (config) => {
+  const startUrl = config.src.split("upload/")[0];
+
+  const endUrl = config.src.split("upload/")[1];
+  const transformedUrl = `${startUrl}upload/w_200,q_${config.quality}/${endUrl}`;
+  return transformedUrl;
+};
 
 function Post({ post, action }) {
   // const toggleFunction = () => {
@@ -13,7 +22,14 @@ function Post({ post, action }) {
   return (
     <article className="post">
       <div className="post-image">
-        <img src={post.image} alt={post.title} />
+        <Image
+          loader={testLoader}
+          src={post.image}
+          width={200}
+          height={120}
+          alt={post.title}
+          quality={50}
+        />
       </div>
       <div className="post-content">
         <header>
